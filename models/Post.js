@@ -23,7 +23,7 @@ const PostSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    avatarUrl:String,
+    imageUrl:String,
 },{
     timestamps:true,
 });

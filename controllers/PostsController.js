@@ -35,7 +35,7 @@ export const getOne = async (req, res) => {
       { _id: postId },
       { $inc: { viewsCount: 1 } },
       { returnDocument: "after" }
-    );
+    ).populate("user");
 
     if (!updatedPost) {
       return res.status(404).json({
