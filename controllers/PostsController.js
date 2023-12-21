@@ -27,6 +27,20 @@ export const getAll = async (req, res) => {
     });
   }
 };
+export const getPostsByTag = async (req, res) => {
+  try {
+    const { tag } = req.params.tag; // Припустимо, що тег передається через параметр URL
+
+    const posts = await PostModel.find({ tag: tag }).populate("user").exec();
+
+    res.json(posts);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: "Can not get posts by tag",
+    });
+  }
+};
 
 export const getOne = async (req, res) => {
   try {
@@ -82,7 +96,7 @@ export const create = async (req, res) => {
       title: req.body.title,
       text: req.body.text,
       imageUrl: req.body.imageUrl,
-      tags: req.body.tags,
+      tags: req.body.tags.split(' '),
       user: req.userId,
     });
     const post = await doc.save();
@@ -107,7 +121,7 @@ export const update =async (req, res)=>{
       text: req.body.text,
       imageUrl: req.body.imageUrl,
       user: req.userId,
-      tags: req.body.tags,
+      tags: req.body.tags.split(' '),
     },
     res.json({
       success: true,
